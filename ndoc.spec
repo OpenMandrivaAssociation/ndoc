@@ -1,6 +1,6 @@
 Name:		ndoc
 Version:	1.3.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 Summary:	Code Documentation Generator for .NET
 URL:		http://ndoc.sourceforge.net/
 License:	GPLv2+
@@ -43,7 +43,9 @@ Development files for Ndoc.
 
 %build
 # Use the mono system key instead of generating our own here.
-#cp -a /etc/pki/mono/mono.snk NDoc.snk
+%if %mdvver >= 201100
+cp -a /etc/pki/mono/mono.snk NDoc.snk
+%endif
 nant -t:mono-2.0
 # This one gets far enough, before throwing an odd windows error.
 nant -t:mono-2.0 sdkdoc ||:
