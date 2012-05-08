@@ -1,6 +1,6 @@
 Name:		ndoc
 Version:	1.3.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 Summary:	Code Documentation Generator for .NET
 URL:		http://ndoc.sourceforge.net/
 License:	GPLv2+
