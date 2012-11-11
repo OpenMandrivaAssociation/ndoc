@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 03_sdkdoc_location.dpatch by Jelmer Vernooij <jelmer@samba.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Fix dir seperator for POSIX
+
+@DPATCH@
+
+--- ndoc-1.3.1/NDoc.build	2005-10-07 18:35:28.000000000 +0200
++++ ndoc-1.3.1x/NDoc.build	2005-10-07 18:36:30.000000000 +0200
+@@ -192,7 +192,7 @@
+     <target name="sdkdoc" description="Builds SDK documentation (based on .NET Framework 1.1 assembly)">
+         <echo message="Creating SDK Documentation for NDoc Core." />
+         <ndoc>
+-            <assemblies basedir="${build.dir}/net/1.1">
++            <assemblies basedir="${current.bin.dir}">
+                 <include name="NDoc.Core.dll" />
+             </assemblies>
+             <documenters>
