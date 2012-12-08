@@ -1,6 +1,6 @@
 Name:		ndoc
 Version:	1.3.1
-Release:	%mkrel 4
+Release:	%mkrel 5
 Summary:	Code Documentation Generator for .NET
 URL:		http://ndoc.sourceforge.net/
 License:	GPLv2+
@@ -51,21 +51,21 @@ nant -t:mono-2.0
 nant -t:mono-2.0 sdkdoc ||:
 
 %install
-rm -rf %{buildroot}
-%{__mkdir_p} %{buildroot}/%{_datadir}/pkgconfig
-cp -p %{S:1} %{buildroot}/%{_datadir}/pkgconfig
-%{__mkdir_p} %{buildroot}/%_prefix/lib/mono/gac/
-gacutil -i bin/mono/1.0/NDoc.Core.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.JavaDoc.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Latex.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.LinearHtml.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn2.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Xml.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.ExtendedUI.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Test.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.VisualStudio.dll -f -package ndoc -root %{buildroot}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDocConsole.exe -f -package ndoc -root %{buildroot}/%_prefix/lib
+rm -rf $RPM_BUILD_ROOT
+%{__mkdir_p} $RPM_BUILD_ROOT/%{_datadir}/pkgconfig
+cp -p %{S:1} $RPM_BUILD_ROOT/%{_datadir}/pkgconfig
+%{__mkdir_p} $RPM_BUILD_ROOT/%_prefix/lib/mono/gac/
+gacutil -i bin/mono/1.0/NDoc.Core.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.JavaDoc.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Latex.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.LinearHtml.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn2.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Xml.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.ExtendedUI.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.Test.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDoc.VisualStudio.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+gacutil -i bin/mono/1.0/NDocConsole.exe -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
 
 # Cleanup docs
 %{__sed} -i 's/\r//' doc/sdk/ndoc.log
@@ -81,7 +81,7 @@ mv doc/sdk/tree.js{.utf8,}
 rm -rf doc/sdk/ndoc_msdn_temp
 
 %clean
-rm -rf -rf %{buildroot}
+rm -rf -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
@@ -93,4 +93,19 @@ rm -rf -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc doc/sdk/
 %{_datadir}/pkgconfig/ndoc.pc
+
+
+
+%changelog
+* Wed May 04 2011 Oden Eriksson <oeriksson@mandriva.com> 1.3.1-3mdv2011.0
++ Revision: 666605
+- mass rebuild
+
+* Thu Oct 14 2010 Götz Waschk <waschk@mandriva.org> 1.3.1-2mdv2011.0
++ Revision: 585638
+- sign with central key
+
+* Thu Oct 14 2010 Götz Waschk <waschk@mandriva.org> 1.3.1-1mdv2011.0
++ Revision: 585605
+- import ndoc
 

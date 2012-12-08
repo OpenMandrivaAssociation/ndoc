@@ -1,0 +1,8 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+
+Name: ndoc
+Description: ndoc - Code Documentation Generator for .NET
+Version: 1.3.1
+Libs: -r:${libdir}/mono/ndoc/NDoc.Core.dll -r:${libdir}/mono/ndoc/NDoc.Documenter.JavaDoc.dll -r:${libdir}/mono/ndoc/NDoc.Documenter.Latex.dll -r:${libdir}/mono/ndoc/NDoc.Documenter.LinearHtml.dll -r:${libdir}/mono/ndoc/NDoc.Documenter.Msdn2.dll -r:${libdir}/mono/ndoc/NDoc.Documenter.Msdn.dll -r:${libdir}/mono/ndoc/NDoc.Documenter.Xml.dll -r:${libdir}/mono/ndoc/NDoc.ExtendedUI.dll -r:${libdir}/mono/ndoc/NDoc.Test.dll -r:${libdir}/mono/ndoc/NDoc.VisualStudio.dll
