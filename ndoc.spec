@@ -1,10 +1,10 @@
+Summary:	Code Documentation Generator for .NET
 Name:		ndoc
 Version:	1.3.1
-Release:	%mkrel 5
-Summary:	Code Documentation Generator for .NET
-URL:		http://ndoc.sourceforge.net/
+Release:	5
+Url:		http://ndoc.sourceforge.net/
 License:	GPLv2+
-Group: Development/Other
+Group:		Development/Other
 Source0:	http://download.sourceforge.net/sourceforge/ndoc/ndoc-devel-v%{version}.zip
 Source1:	ndoc.pc
 #gw Ubuntu patches:
@@ -15,10 +15,9 @@ Patch3:		03_sdkdoc_location.dpatch
 Patch4:		04_default_documenter.dpatch
 #gw: fix build with old keyfile syntax warning
 Patch5:		ndoc-1.3.1-no-warnaserror.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildArch:	noarch
 BuildRequires:	nant
 BuildRequires:	unzip
-BuildArch: noarch
 
 %description
 NDoc generates class library documentation from .NET assemblies and the XML 
@@ -36,10 +35,10 @@ Requires:	%{name} = %{version}-%{release}
 Development files for Ndoc.
 
 %prep
-%setup -q -c -n %{name}-%{version}
+%setup -q -c
 %apply_patches
-%{__sed} -i 's/\r//' COPYING.txt
-%{__sed} -i 's/\r//' README.txt
+sed -i 's/\r//' COPYING.txt
+sed -i 's/\r//' README.txt
 
 %build
 # Use the mono system key instead of generating our own here.
@@ -51,61 +50,40 @@ nant -t:mono-2.0
 nant -t:mono-2.0 sdkdoc ||:
 
 %install
-rm -rf $RPM_BUILD_ROOT
-%{__mkdir_p} $RPM_BUILD_ROOT/%{_datadir}/pkgconfig
-cp -p %{S:1} $RPM_BUILD_ROOT/%{_datadir}/pkgconfig
-%{__mkdir_p} $RPM_BUILD_ROOT/%_prefix/lib/mono/gac/
-gacutil -i bin/mono/1.0/NDoc.Core.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.JavaDoc.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Latex.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.LinearHtml.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn2.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Documenter.Xml.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.ExtendedUI.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.Test.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDoc.VisualStudio.dll -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
-gacutil -i bin/mono/1.0/NDocConsole.exe -f -package ndoc -root ${RPM_BUILD_ROOT}/%_prefix/lib
+mkdir -p %{buildroot}/%{_datadir}/pkgconfig
+cp -p %{SOURCE1} %{buildroot}/%{_datadir}/pkgconfig
+mkdir -p %{buildroot}/%{_prefix}/lib/mono/gac/
+gacutil -i bin/mono/1.0/NDoc.Core.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.JavaDoc.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Latex.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.LinearHtml.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn2.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Msdn.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Documenter.Xml.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.ExtendedUI.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.Test.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDoc.VisualStudio.dll -f -package ndoc -root %{buildroot}/%{_prefix}/lib
+gacutil -i bin/mono/1.0/NDocConsole.exe -f -package ndoc -root %{buildroot}/%{_prefix}/lib
 
 # Cleanup docs
-%{__sed} -i 's/\r//' doc/sdk/ndoc.log
-%{__sed} -i 's/\r//' doc/sdk/ndoc.js
-%{__sed} -i 's/\r//' doc/sdk/ndoc.css
-%{__sed} -i 's/\r//' doc/sdk/tree.css
-%{__sed} -i 's/\r//' doc/sdk/MSDN.css
-%{__sed} -i 's/\r//' doc/sdk/tree.js
+sed -i 's/\r//' doc/sdk/ndoc.log
+sed -i 's/\r//' doc/sdk/ndoc.js
+sed -i 's/\r//' doc/sdk/ndoc.css
+sed -i 's/\r//' doc/sdk/tree.css
+sed -i 's/\r//' doc/sdk/MSDN.css
+sed -i 's/\r//' doc/sdk/tree.js
 iconv -f iso-8859-1 -t utf-8 -o doc/sdk/tree.js{.utf8,}
 mv doc/sdk/tree.js{.utf8,}
 
 # Sometimes this temp dir sticks around. We don't want it.
 rm -rf doc/sdk/ndoc_msdn_temp
 
-%clean
-rm -rf -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-,root,root,-)
 %doc COPYING.txt README.txt
-%_prefix/lib/mono/gac/NDoc*/
-%_prefix/lib/mono/ndoc
+%{_prefix}/lib/mono/gac/NDoc*/
+%{_prefix}/lib/mono/ndoc
 
 %files devel
-%defattr(-,root,root,-)
 %doc doc/sdk/
 %{_datadir}/pkgconfig/ndoc.pc
-
-
-
-%changelog
-* Wed May 04 2011 Oden Eriksson <oeriksson@mandriva.com> 1.3.1-3mdv2011.0
-+ Revision: 666605
-- mass rebuild
-
-* Thu Oct 14 2010 Götz Waschk <waschk@mandriva.org> 1.3.1-2mdv2011.0
-+ Revision: 585638
-- sign with central key
-
-* Thu Oct 14 2010 Götz Waschk <waschk@mandriva.org> 1.3.1-1mdv2011.0
-+ Revision: 585605
-- import ndoc
 
