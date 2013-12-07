@@ -1,7 +1,7 @@
 Summary:	Code Documentation Generator for .NET
 Name:		ndoc
 Version:	1.3.1
-Release:	6
+Release:	7
 Url:		http://ndoc.sourceforge.net/
 License:	GPLv2+
 Group:		Development/Other
