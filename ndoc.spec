@@ -18,6 +18,7 @@ Patch5:		ndoc-1.3.1-no-warnaserror.patch
 BuildArch:	noarch
 BuildRequires:	nant
 BuildRequires:	unzip
+BuildRequires:	pkgconfig(mono)
 
 %description
 NDoc generates class library documentation from .NET assemblies and the XML 
