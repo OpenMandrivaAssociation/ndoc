@@ -37,7 +37,7 @@ Development files for Ndoc.
 
 %prep
 %setup -q -c
-%apply_patches
+%autopatch -p1
 sed -i 's/\r//' COPYING.txt
 sed -i 's/\r//' README.txt
 
